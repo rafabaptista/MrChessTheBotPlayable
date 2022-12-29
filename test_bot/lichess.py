@@ -1,6 +1,29 @@
+import logging
+import requests
+from urllib.parse import urljoin
+from requests.exceptions import ConnectionError, HTTPError, ReadTimeout
+from urllib3.exceptions import ProtocolError
+from http.client import RemoteDisconnected
+import backoff
 import time
 import chess
-import json
+
+logger = logging.getLogger(__name__)
+
+ENDPOINTS = {
+    "profile": "/api/account",
+    "playing": "/api/account/playing",
+    "stream": "/api/bot/game/stream/{}",
+    "stream_event": "/api/stream/event",
+    "game": "/api/bot/game/{}",
+    "move": "/api/bot/game/{}/move/{}",
+    "chat": "/api/bot/game/{}/chat",
+    "abort": "/api/bot/game/{}/abort",
+    "accept": "/api/challenge/{}/accept",
+    "decline": "/api/challenge/{}/decline",
+    "upgrade": "/api/bot/account/upgrade",
+    "resign": "/api/bot/game/{}/resign"
+}
 
 
 class GameStream:
@@ -8,35 +31,7 @@ class GameStream:
         self.moves_sent = ""
 
     def iter_lines(self):
-        yield json.dumps(
-            {"id": "zzzzzzzz",
-             "variant": {"key": "standard",
-                         "name": "Standard",
-                         "short": "Std"},
-             "clock": {"initial": 60000,
-                       "increment": 2000},
-             "speed": "bullet",
-             "perf": {"name": "Bullet"},
-             "rated": True,
-             "createdAt": 1600000000000,
-             "white": {"id": "bo",
-                       "name": "bo",
-                       "title": "BOT",
-                       "rating": 3000},
-             "black": {"id": "b",
-                       "name": "b",
-                       "title": "BOT",
-                       "rating": 3000,
-                       "provisional": True},
-             "initialFen": "startpos",
-             "type": "gameFull",
-             "state": {"type": "gameState",
-                       "moves": "",
-                       "wtime": 60000,
-                       "btime": 60000,
-                       "winc": 2000,
-                       "binc": 2000,
-                       "status": "started"}}).encode("utf-8")
+        yield b'{"id":"zzzzzzzz","variant":{"key":"standard","name":"Standard","short":"Std"},"clock":{"initial":60000,"increment":2000},"speed":"bullet","perf":{"name":"Bullet"},"rated":true,"createdAt":1600000000000,"white":{"id":"bo","name":"bo","title":"BOT","rating":3000},"black":{"id":"b","name":"b","title":"BOT","rating":3000,"provisional":true},"initialFen":"startpos","type":"gameFull","state":{"type":"gameState","moves":"","wtime":60000,"btime":60000,"winc":2000,"binc":2000,"status":"started"}}'
         time.sleep(1)
         while True:
             time.sleep(0.001)
@@ -60,20 +55,11 @@ class GameStream:
                     pass
             wtime, btime = float(wtime), float(btime)
             time.sleep(0.1)
-            new_game_state = {"type": "gameState",
-                              "moves": moves,
-                              "wtime": int(wtime * 1000),
-                              "btime": int(btime * 1000),
-                              "winc": 2000,
-                              "binc": 2000}
             if event == "end":
-                new_game_state["status"] = "outoftime"
-                new_game_state["winner"] = "black"
-                yield json.dumps(new_game_state).encode("utf-8")
+                yield eval(f'b\'{{"type":"gameState","moves":"{moves}","wtime":{int(wtime * 1000)},"btime":{int(btime * 1000)},"winc":2000,"binc":2000,"status":"outoftime","winner":"black"}}\'')
                 break
             if moves:
-                new_game_state["status"] = "started"
-                yield json.dumps(new_game_state).encode("utf-8")
+                yield eval(f'b\'{{"type":"gameState","moves":"{moves}","wtime":{int(wtime * 1000)},"btime":{int(btime * 1000)},"winc":2000,"binc":2000,"status":"started"}}\'')
 
 
 class EventStream:
@@ -85,21 +71,49 @@ class EventStream:
             yield b''
             time.sleep(1)
         else:
-            yield json.dumps(
-                {"type": "gameStart",
-                 "game": {"id": "zzzzzzzz",
-                          "source": "friend",
-                          "compat": {"bot": True,
-                                     "board": True}}}).encode("utf-8")
+            yield b'{"type":"gameStart","game":{"id":"zzzzzzzz","source":"friend","compat":{"bot":true,"board":true}}}'
 
 
 # docs: https://lichess.org/api
 class Lichess:
     def __init__(self, token, url, version):
+        self.version = version
+        self.header = {
+            "Authorization": f"Bearer {token}"
+        }
         self.baseUrl = url
+        self.session = requests.Session()
+        self.session.headers.update(self.header)
+        self.set_user_agent("?")
         self.game_accepted = False
         self.moves = []
         self.sent_game = False
+
+    def is_final(exception):
+        return isinstance(exception, HTTPError) and exception.response.status_code < 500
+
+    @backoff.on_exception(backoff.constant,
+                          (RemoteDisconnected, ConnectionError, ProtocolError, HTTPError, ReadTimeout),
+                          max_time=60,
+                          interval=0.1,
+                          giveup=is_final)
+    def api_get(self, path, raise_for_status=True):
+        url = urljoin(self.baseUrl, path)
+        response = self.session.get(url, timeout=2)
+        if raise_for_status:
+            response.raise_for_status()
+        return response.json()
+
+    @backoff.on_exception(backoff.constant,
+                          (RemoteDisconnected, ConnectionError, ProtocolError, HTTPError, ReadTimeout),
+                          max_time=60,
+                          interval=0.1,
+                          giveup=is_final)
+    def api_post(self, path, data=None, headers=None, params=None):
+        url = urljoin(self.baseUrl, path)
+        response = self.session.post(url, data=data, headers=headers, params=params, timeout=2)
+        response.raise_for_status()
+        return response.json()
 
     def get_game(self, game_id):
         return
@@ -137,22 +151,19 @@ class Lichess:
         return
 
     def get_profile(self):
-        return {"id": "b",
-                "username": "b",
-                "online": True,
-                "title": "BOT",
-                "url": "https://lichess.org/@/b",
-                "followable": True,
-                "following": False,
-                "blocking": False,
-                "followsYou": False,
-                "perfs": {}}
+        profile = {"id": "b", "username": "b", "online": True, "title": "BOT", "url": "https://lichess.org/@/bo", "followable": True, "following": False, "blocking": False, "followsYou": False}
+        self.set_user_agent(profile["username"])
+        return profile
 
     def get_ongoing_games(self):
         return []
 
     def resign(self, game_id):
         return
+
+    def set_user_agent(self, username):
+        self.header.update({"User-Agent": f"lichess-bot/{self.version} user:{username}"})
+        self.session.headers.update(self.header)
 
     def get_game_pgn(self, game_id):
         return """
@@ -166,18 +177,3 @@ class Lichess:
 
 *
 """
-
-    def get_online_bots(self):
-        return [{"username": "b", "online": True}]
-
-    def challenge(self, username, params):
-        return
-
-    def cancel(self, challenge_id):
-        return
-
-    def online_book_get(self, path, params=None):
-        return
-
-    def is_online(self, user_id):
-        return True
