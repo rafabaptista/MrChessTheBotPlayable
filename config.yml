@@ -3,7 +3,7 @@ url: "https://lichess.org/"  # Lichess base URL.
 
 engine:                      # Engine settings.
   dir: "./engines/"          # Directory containing the engine. This can be an absolute path or one relative to lichess-bot/.
-  name: "stockfish_8_x64"        # Binary name of the engine to use.
+  name: "stockfish_14053109_x64"        # Binary name of the engine to use.
   working_dir: ""            # Directory where the chess engine will read and write files. If blank or missing, the current directory is used.
   protocol: "uci"            # "uci", "xboard" or "homemade"
   ponder: true               # Think on opponent's time.
@@ -72,7 +72,8 @@ engine:                      # Engine settings.
       min_dtm_to_consider_as_wdl_1: 120  # The minimum dtm to consider as syzygy wdl=1/-1. Set to 100 to disable.
       move_quality: "best"   # One of "good", "best", "suggest" (it takes all the "good" moves and tells the engine to only consider these; will move instantly if there is only 1 "good" move).
 
-# engine_options:            # Any custom command line params to pass to the engine.
+#engine_options:            # Any custom command line params to pass to the engine.
+  #weights: "weights.pb.gz"
 #   cpuct: 3.1
 
   homemade_options:
