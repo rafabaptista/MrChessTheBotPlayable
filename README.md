@@ -1,16 +1,16 @@
 # lichess-bot
-**MAINTAINER [OIVAS7572](https://github.com/OIVAS7572)**
+**MAINTAINER [rafabaptista](https://github.com/rafabaptista)**
 
-[![Python Build](https://github.com/OIVAS7572/lichess-bot/actions/workflows/python-build.yml/badge.svg)](https://github.com/OIVAS7572/lichess-bot/actions/workflows/python-build.yml)
+<!-- [![Python Build](https://github.com/rafabaptista/MrChessTheBotPlayable/actions/workflows/python-build.yml/badge.svg)](https://github.com/OIVAS7572/lichess-bot/actions/workflows/python-build.yml)
 [![Python Test](https://github.com/OIVAS7572/lichess-bot/actions/workflows/python-test.yml/badge.svg)](https://github.com/OIVAS7572/lichess-bot/actions/workflows/python-test.yml)
-[![Docker](https://github.com/OIVAS7572/lichess-bot/actions/workflows/Docker.yml/badge.svg)](https://github.com/OIVAS7572/lichess-bot/actions/workflows/Docker.yml)
+[![Docker](https://github.com/OIVAS7572/lichess-bot/actions/workflows/Docker.yml/badge.svg)](https://github.com/OIVAS7572/lichess-bot/actions/workflows/Docker.yml) -->
 
 # lichess-bot
 - A bridge between [Lichess API](https://lichess.org/api#tag/Bot) and bots.
 - This bot is made with Python and it is running using Docker container and is concentrated on heroku.
 
 ## How to Install on Heroku
-- Import or [Fork](https://github.com/OIVAS7572/lichess-bot/fork) this repository to your Github.
+- Import or [Fork](https://github.com/rafabaptista/MrChessTheBotPlayable/fork) this repository to your Github.
 - Open the `Settings` tab on heroku and insert your [API access token with `bot:play` scopes enabled](https://lichess.org/account/oauth/token/create?scopes[]=bot:play&description=Lichess+Bot+Token) in the `Config vars` field in the format `LICHESS_BOT_TOKEN:API-ACCESS-TOKEN`, where you replace `API-ACCESS-TOKEN` with your API Access token.
 - Install [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) and [create a new app](https://dashboard.heroku.com/new-app) in Heroku. <br/>
 **Do note that in certain operating systems Heroku CLI doesn't get added to path automatically. If that's the case you'll have to add heroku to your path manually.**
@@ -25,8 +25,9 @@ Engine:
 - [Stockfish 15](https://stockfishchess.org/blog/2022/stockfish-15/) with the default NNUE.
 
 Opening Books: 
-- [Goi5.1.bin](https://gitlab.com/OIVAS7572/Goi5.1.bin/-/raw/master/Goi5.1.bin.7z)
+- [Goi5.1.bin](https://gitlab.com/OIVAS7572/Goi5.1.bin/-/blob/main/Goi5.1.bin.7z)
 - [Drawkiller_EloZoom_big.bin](engines/books/Drawkiller_EloZoom_big.bin)
+- [Cerebellum3Merge.bin](https://gitlab.com/OIVAS7572/Cerebellum3merge.bin/-/blob/main/Cerebellum3Merge.bin.7z)
 
 **Keep you Forks or Imports Up-to-Date & Check the other Branches in this Repository**
 
