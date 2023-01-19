@@ -11,6 +11,12 @@ RUN python3 -m pip install --no-cache-dir -r requirements.txt > pip.log
 RUN wget --no-check-certificate -nv "https://gitlab.com/OIVAS7572/Goi5.1.bin/-/raw/main/Goi5.1.bin.7z" -O Goi5.1.bin.7z \
 && 7z e Goi5.1.bin.7z && rm Goi5.1.bin.7z && mv Goi5.1.bin engines/books/Goi5.1.bin
 
+RUN wget --no-check-certificate -nv "https://gitlab.com/OIVAS7572/Goi5.1.bin/-/blob/main/Goi5.1.bin.7z" -O Goi5.1.bin.7z \
+&& 7z e Goi5.1.bin.7z && rm Goi5.1.bin.7z && mv Goi5.1.bin engines/books/Goi5.1.bin
+
+RUN wget --no-check-certificate -nv "https://gitlab.com/OIVAS7572/Cerebellum3merge.bin/-/blob/main/Cerebellum3Merge.bin.7z" -O Cerebellum3Merge.bin.7z \
+&& 7z e Cerebellum3Merge.bin.7z && rm Cerebellum3Merge.bin.7z && mv Cerebellum3Merge.bin engines/books/Cerebellum3Merge.bin
+
 RUN chmod +x engines/stockfish15
 #Engine name ^^^^^^^^^^^^^^^^^^^
 
