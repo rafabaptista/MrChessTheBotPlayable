@@ -28,6 +28,7 @@ Opening Books:
 - [Goi5.1.bin](https://gitlab.com/OIVAS7572/Goi5.1.bin/-/blob/main/Goi5.1.bin.7z)
 - [Drawkiller_EloZoom_big.bin](engines/books/Drawkiller_EloZoom_big.bin)
 - [Cerebellum3Merge.bin](https://gitlab.com/OIVAS7572/Cerebellum3merge.bin/-/blob/main/Cerebellum3Merge.bin.7z)
+- [Poly17](https://rebel13.nl/download/books.html)
 
 **Keep you Forks or Imports Up-to-Date & Check the other Branches in this Repository**
 

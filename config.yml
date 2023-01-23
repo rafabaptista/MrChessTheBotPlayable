@@ -12,6 +12,9 @@ engine:                      # Engine settings.
     book:
       standard:              # List of book file paths for variant standard.
         - engines/books/Drawkiller_EloZoom_big.bin
+        - engines/books/Perfect2017-LC0.bin
+        - engines/books/Perfect2017-SF12.bin
+        - engines/books/Perfect2017.bin
         - engines/books/Goi5.1.bin
         - engines/books/Cerebellum3Merge.bin
 #     atomic:                # List of book file paths for variant atomic.
@@ -113,7 +116,7 @@ challenge:                   # Incoming challenges.
     - blitz
     - rapid
     - classical
-    - correspondence
+    #- correspondence
   modes:                     # Game modes to accept.
     - casual                 # Unrated games.
     - rated                  # Rated games - must comment if the engine doesn't try to win.
