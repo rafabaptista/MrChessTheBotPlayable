@@ -25,9 +25,9 @@ Engine:
 - [Stockfish 15](https://stockfishchess.org/blog/2022/stockfish-15/) with the default NNUE.
 
 Opening Books: 
-- [Goi5.1.bin](https://gitlab.com/OIVAS7572/Goi5.1.bin/-/blob/main/Goi5.1.bin.7z)
+- [Goi5.1.bin](https://github.com/rafabaptista/MrChessTheBotPlayable/raw/main/engines/books/to_download/Cerebellum3Merge.bin.7z)
 - [Drawkiller_EloZoom_big.bin](engines/books/Drawkiller_EloZoom_big.bin)
-- [Cerebellum3Merge.bin](https://gitlab.com/OIVAS7572/Cerebellum3merge.bin/-/blob/main/Cerebellum3Merge.bin.7z)
+- [Cerebellum3Merge.bin](https://github.com/rafabaptista/MrChessTheBotPlayable/raw/main/engines/books/to_download/Goi5.1.bin.7z)
 - [Poly17](https://rebel13.nl/download/books.html)
 
 **Keep you Forks or Imports Up-to-Date & Check the other Branches in this Repository**
@@ -48,3 +48,6 @@ Credits to [ShailChoksi's lichess-bot](https://github.com/ShailChoksi/lichess-bo
 
 ## License
 This code is primarily taken from [lichess-bot by ShailChoksi](https://github.com/ShailChoksi/lichess-bot) and is hence run under the AGPLv3 License (or later at your option). Check out the [LICENSE file](/LICENSE) for full text.
+
+## Screenshots
+![Mr Chess, the Bot](https://github.com/rafabaptista/MrChessBot/raw/main/media/MrChessBotProfImage.png)
