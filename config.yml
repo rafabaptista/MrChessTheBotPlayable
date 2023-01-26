@@ -15,6 +15,7 @@ engine:                      # Engine settings.
         - engines/books/Perfect2017-LC0.bin
         - engines/books/Perfect2017-SF12.bin
         - engines/books/Perfect2017.bin
+        - engines/books/Perfect2021.bin
         - engines/books/Goi5.1.bin
         - engines/books/Cerebellum3Merge.bin
 #     atomic:                # List of book file paths for variant atomic.

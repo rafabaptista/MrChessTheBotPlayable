@@ -29,6 +29,7 @@ Opening Books:
 - [Drawkiller_EloZoom_big.bin](engines/books/Drawkiller_EloZoom_big.bin)
 - [Cerebellum3Merge.bin](https://github.com/rafabaptista/MrChessTheBotPlayable/raw/main/engines/books/to_download/Goi5.1.bin.7z)
 - [Poly17](https://rebel13.nl/download/books.html)
+- [Perfect 2021](https://chessengines.blogspot.com/2021/01/new-chess-opening-book-perfect-2021-abk.html)
 
 **Keep you Forks or Imports Up-to-Date & Check the other Branches in this Repository**
 
